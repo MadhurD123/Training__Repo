@@ -22,6 +22,7 @@ public class Main {
             System.out.println("4. Book a Car");
             System.out.println("5. Return a Car");
             System.out.println("6. Exit");
+            System.out.println("7. Sort Cars By Price");
 
             System.out.print("Enter your choice: ");
             choice = Integer.parseInt(sc.nextLine());
@@ -111,6 +112,12 @@ public class Main {
 
                 case 6:
                     System.out.println("Thank you for using our system!");
+                    break;
+                    
+                case 7:
+                    System.out.print("Enter Car ID: ");
+                    int searchId = Integer.parseInt(sc.nextLine());
+                    manager.searchVehicle(searchId);
                     break;
 
                 default:

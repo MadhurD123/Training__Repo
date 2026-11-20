@@ -90,7 +90,11 @@ public class Main {
                     }
 
                     if (customer != null && vehicle != null && days > 0) {
-                        manager.bookVehicle(new Booking(bid, customer, vehicle, days));
+                        try {
+                            manager.bookVehicle(new Booking(bid, customer, vehicle, days));
+                        } catch (VehicleNotAvailableException e) {
+                            System.out.println("Error: " + e.getMessage());
+                        }
                     } else {
                         System.out.println("Invalid customer, car or rental days!");
                     }

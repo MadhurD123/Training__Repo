@@ -97,4 +97,26 @@ public class RentalManager {
 
         System.out.println("Booking not found!");
     }
+
+
+    // Search vehicle using Linear Search
+    public void searchVehicle(int id) {
+
+        boolean found = false;
+
+        for (Vehicle v : vehicles) {
+
+            if (v.id == id) {
+                System.out.println("\nCar Found!");
+                v.display();
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            System.out.println("Car not found!");
+        }
+    }
+
 }

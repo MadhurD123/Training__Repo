@@ -30,8 +30,27 @@ public class RentalManager {
 
     // Book a vehicle
     
+
 public void bookVehicle(Booking booking)
-        throws VehicleNotAvailableException {
+        throws VehicleNotAvailableException, InvalidBookingException {
+
+    if (booking.days <= 0) {
+        throw new InvalidBookingException(
+            "Rental days must be greater than zero!"
+        );
+    }
+
+    if (!customers.contains(booking.customer)) {
+        throw new InvalidBookingException(
+            "Customer is not registered!"
+        );
+    }
+
+    if (!vehicles.contains(booking.vehicle)) {
+        throw new InvalidBookingException(
+            "Vehicle does not exist!"
+        );
+    }
 
     if (!booking.vehicle.available) {
         throw new VehicleNotAvailableException(
@@ -44,6 +63,7 @@ public void bookVehicle(Booking booking)
 
     System.out.println("Vehicle booked successfully!");
 }
+
 
 
     // Return a vehicle

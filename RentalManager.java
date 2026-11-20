@@ -29,15 +29,22 @@ public class RentalManager {
     }
 
     // Book a vehicle
-    public void bookVehicle(Booking booking) {
-        if (booking.vehicle.available) {
-            bookings.add(booking);
-            booking.vehicle.available = false;
-            System.out.println("Vehicle booked successfully!");
-        } else {
-            System.out.println("Vehicle is not available!");
-        }
+    
+public void bookVehicle(Booking booking)
+        throws VehicleNotAvailableException {
+
+    if (!booking.vehicle.available) {
+        throw new VehicleNotAvailableException(
+            "Vehicle is not available for booking!"
+        );
     }
+
+    bookings.add(booking);
+    booking.vehicle.available = false;
+
+    System.out.println("Vehicle booked successfully!");
+}
+
 
     // Return a vehicle
     

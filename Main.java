@@ -1,4 +1,3 @@
-
 import java.util.Scanner;
 
 public class Main {
@@ -23,7 +22,8 @@ public class Main {
             System.out.println("4. Book a Car");
             System.out.println("5. Return a Car");
             System.out.println("6. Search Car By ID");
-            System.out.println("7. Exit");
+            System.out.println("7. View All Bookings");
+            System.out.println("8. Exit");
 
             System.out.print("Enter your choice: ");
             choice = Integer.parseInt(sc.nextLine());
@@ -51,7 +51,7 @@ public class Main {
                         System.out.println("Invalid rental price!");
                     } else {
                         manager.addVehicle(
-                            new Car(id, brand, model, price)
+                                new Car(id, brand, model, price)
                         );
                     }
                     break;
@@ -67,7 +67,7 @@ public class Main {
                     String phone = sc.nextLine();
 
                     manager.addCustomer(
-                        new Customer(cid, name, phone)
+                            new Customer(cid, name, phone)
                     );
                     break;
 
@@ -87,6 +87,7 @@ public class Main {
                     Customer customer = null;
                     Vehicle vehicle = null;
 
+                    // Find customer
                     for (Customer c : manager.customers) {
                         if (c.id == customerId) {
                             customer = c;
@@ -94,6 +95,7 @@ public class Main {
                         }
                     }
 
+                    // Find car
                     for (Vehicle v : manager.vehicles) {
                         if (v.getId() == carId) {
                             vehicle = v;
@@ -103,12 +105,13 @@ public class Main {
 
                     if (customer == null || vehicle == null) {
                         System.out.println(
-                            "Invalid customer ID or car ID!"
+                                "Invalid customer ID or car ID!"
                         );
                     } else {
+
                         try {
                             Booking booking = new Booking(
-                                bid, customer, vehicle, days
+                                    bid, customer, vehicle, days
                             );
 
                             manager.bookVehicle(booking);
@@ -117,7 +120,7 @@ public class Main {
                                  InvalidBookingException e) {
 
                             System.out.println(
-                                "Error: " + e.getMessage()
+                                    "Error: " + e.getMessage()
                             );
                         }
                     }
@@ -138,8 +141,12 @@ public class Main {
                     break;
 
                 case 7:
+                    manager.displayBookings();
+                    break;
+
+                case 8:
                     System.out.println(
-                        "Thank you for using our system!"
+                            "Thank you for using our system!"
                     );
                     break;
 
@@ -147,7 +154,7 @@ public class Main {
                     System.out.println("Invalid choice!");
             }
 
-        } while (choice != 7);
+        } while (choice != 8);
 
         sc.close();
     }

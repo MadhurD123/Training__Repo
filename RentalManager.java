@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -8,7 +7,7 @@ public class RentalManager {
     ArrayList<Customer> customers = new ArrayList<>();
     ArrayList<Booking> bookings = new ArrayList<>();
 
-    // Add vehicle with duplicate ID validation
+    // Add vehicle
     public void addVehicle(Vehicle vehicle) {
 
         for (Vehicle v : vehicles) {
@@ -60,28 +59,28 @@ public class RentalManager {
         for (Booking b : bookings) {
             if (b.bookingId == booking.bookingId) {
                 throw new InvalidBookingException(
-                    "Booking ID already exists!");
+                        "Booking ID already exists!");
             }
         }
 
         if (booking.days <= 0) {
             throw new InvalidBookingException(
-                "Rental days must be greater than zero!");
+                    "Rental days must be greater than zero!");
         }
 
         if (!customers.contains(booking.customer)) {
             throw new InvalidBookingException(
-                "Customer is not registered!");
+                    "Customer is not registered!");
         }
 
         if (!vehicles.contains(booking.vehicle)) {
             throw new InvalidBookingException(
-                "Vehicle does not exist!");
+                    "Vehicle does not exist!");
         }
 
         if (!booking.vehicle.isAvailable()) {
             throw new VehicleNotAvailableException(
-                "Vehicle is not available for booking!");
+                    "Vehicle is not available for booking!");
         }
 
         bookings.add(booking);
@@ -90,7 +89,7 @@ public class RentalManager {
         System.out.println("Vehicle booked successfully!");
     }
 
-    // Return vehicle and calculate late fee
+    // Return vehicle
     public void returnVehicle(int bookingId) {
 
         for (Booking b : bookings) {
@@ -147,6 +146,21 @@ public class RentalManager {
 
         if (!found) {
             System.out.println("Car not found!");
+        }
+    }
+
+    // Display all bookings
+    public void displayBookings() {
+
+        if (bookings.isEmpty()) {
+            System.out.println("No bookings found!");
+            return;
+        }
+
+        System.out.println("\n===== ALL BOOKINGS =====");
+
+        for (Booking b : bookings) {
+            b.display();
         }
     }
 }

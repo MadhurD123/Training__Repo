@@ -8,23 +8,47 @@ public class RentalManager {
     ArrayList<Customer> customers = new ArrayList<>();
     ArrayList<Booking> bookings = new ArrayList<>();
 
-    // Add vehicle
+    // Add vehicle with duplicate ID validation
     public void addVehicle(Vehicle vehicle) {
+
+        for (Vehicle v : vehicles) {
+            if (v.getId() == vehicle.getId()) {
+                System.out.println("Vehicle ID already exists!");
+                return;
+            }
+        }
+
         vehicles.add(vehicle);
         System.out.println("Vehicle added successfully!");
     }
 
     // Display available vehicles
     public void displayVehicles() {
+
+        boolean found = false;
+
         for (Vehicle v : vehicles) {
-            if (v.available) {
+            if (v.isAvailable()) {
                 v.display();
+                found = true;
             }
+        }
+
+        if (!found) {
+            System.out.println("No available cars!");
         }
     }
 
     // Register customer
     public void addCustomer(Customer customer) {
+
+        for (Customer c : customers) {
+            if (c.id == customer.id) {
+                System.out.println("Customer ID already exists!");
+                return;
+            }
+        }
+
         customers.add(customer);
         System.out.println("Customer registered successfully!");
     }
@@ -32,6 +56,13 @@ public class RentalManager {
     // Book vehicle
     public void bookVehicle(Booking booking)
             throws VehicleNotAvailableException, InvalidBookingException {
+
+        for (Booking b : bookings) {
+            if (b.bookingId == booking.bookingId) {
+                throw new InvalidBookingException(
+                    "Booking ID already exists!");
+            }
+        }
 
         if (booking.days <= 0) {
             throw new InvalidBookingException(
@@ -48,24 +79,25 @@ public class RentalManager {
                 "Vehicle does not exist!");
         }
 
-        if (!booking.vehicle.available) {
+        if (!booking.vehicle.isAvailable()) {
             throw new VehicleNotAvailableException(
                 "Vehicle is not available for booking!");
         }
 
         bookings.add(booking);
-        booking.vehicle.available = false;
+        booking.vehicle.setAvailable(false);
 
         System.out.println("Vehicle booked successfully!");
     }
 
-    // Return vehicle
+    // Return vehicle and calculate late fee
     public void returnVehicle(int bookingId) {
+
         for (Booking b : bookings) {
 
             if (b.bookingId == bookingId) {
 
-                if (b.vehicle.available) {
+                if (b.vehicle.isAvailable()) {
                     System.out.println("This car has already been returned!");
                     return;
                 }
@@ -83,7 +115,7 @@ public class RentalManager {
                 double lateFee = b.calculateLateFee(extraDays);
                 double totalAmount = b.totalRent + lateFee;
 
-                b.vehicle.available = true;
+                b.vehicle.setAvailable(true);
 
                 System.out.println("\n===== RETURN DETAILS =====");
                 System.out.println("Normal Rent: Rs." + b.totalRent);
@@ -98,7 +130,6 @@ public class RentalManager {
         System.out.println("Booking not found!");
     }
 
-
     // Search vehicle using Linear Search
     public void searchVehicle(int id) {
 
@@ -106,7 +137,7 @@ public class RentalManager {
 
         for (Vehicle v : vehicles) {
 
-            if (v.id == id) {
+            if (v.getId() == id) {
                 System.out.println("\nCar Found!");
                 v.display();
                 found = true;
@@ -118,5 +149,4 @@ public class RentalManager {
             System.out.println("Car not found!");
         }
     }
-
 }
